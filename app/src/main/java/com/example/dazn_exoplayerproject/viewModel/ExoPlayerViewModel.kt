@@ -1,19 +1,26 @@
 package com.example.dazn_exoplayerproject.viewModel
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.google.android.exoplayer2.ExoPlayer
-import dagger.hilt.android.lifecycle.HiltViewModel
-import javax.inject.Inject
+import androidx.lifecycle.viewModelScope
+import com.example.dazn_exoplayerproject.model.VideoListDataItem
+import com.example.dazn_exoplayerproject.repository.VideoListRepository
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import org.koin.core.component.KoinComponent
 
-@HiltViewModel
-class ExoPlayerViewModel : ViewModel() {
-    @Inject
-    lateinit var exoPlayer: ExoPlayer
+class ExoPlayerViewModel(
+    private val videoListRepository: VideoListRepository
+) : ViewModel(), KoinComponent {
+    val videoList = MutableLiveData<List<VideoListDataItem>>()
 
-    fun playVideo(url: String) {
-        exoPlayer.apply {
-            prepare()
-            play()
+    init {
+        loadVideoList()
+    }
+
+    fun loadVideoList() {
+        viewModelScope.launch(Dispatchers.Default) {
+            videoList.postValue(videoListRepository.readVideoJsonList())
         }
     }
 }

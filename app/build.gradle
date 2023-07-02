@@ -1,6 +1,8 @@
 plugins {
     id 'com.android.application'
     id 'org.jetbrains.kotlin.android'
+    id 'org.jetbrains.kotlin.kapt'
+    id 'androidx.navigation.safeargs'
 }
 
 android {
@@ -9,7 +11,7 @@ android {
 
     defaultConfig {
         applicationId "com.example.dazn_exoplayerproject"
-        minSdk 24
+        minSdk 22
         targetSdk 33
         versionCode 1
         versionName "1.0"
@@ -31,7 +33,7 @@ android {
         targetCompatibility JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = JavaVersion.VERSION_11.toString()
     }
     buildFeatures {
         dataBinding = true
@@ -46,10 +48,13 @@ dependencies {
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.5.1'
-// Hilt dependencies
-    implementation "com.google.dagger:hilt-android:2.44"
+// Koin dependencies
+    implementation "io.insert-koin:koin-android:3.1.5"
+    implementation "io.insert-koin:koin-android-compat:3.1.5"
+
     // ExoPlayer dependencies
     implementation 'com.google.android.exoplayer:exoplayer:2.18.7'
+    implementation 'com.google.code.gson:gson:2.8.8'
 
     implementation("androidx.navigation:navigation-fragment-ktx:2.6.0")
     implementation("androidx.navigation:navigation-ui-ktx:2.6.0")
