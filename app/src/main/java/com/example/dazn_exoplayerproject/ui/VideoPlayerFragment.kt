@@ -4,11 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
-import com.example.dazn_exoplayerproject.R
 import com.example.dazn_exoplayerproject.databinding.FragmentVideoPlayerBinding
+import com.example.dazn_exoplayerproject.model.ExoPlayerActionEvents
 import com.example.dazn_exoplayerproject.ui.interfaces.PlaybackControlListener
 import com.example.dazn_exoplayerproject.viewModel.ExoPlayerViewModel
 import com.google.android.exoplayer2.ExoPlayer
@@ -38,6 +37,14 @@ class VideoPlayerFragment : Fragment(), Player.Listener, PlaybackControlListener
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         initializePlayer()
+        setDefaultValuesForCounter()
+    }
+
+    private fun setDefaultValuesForCounter() {
+        screenBinding.pauseCount = pauseCount.toString()
+        screenBinding.playCount = playCount.toString()
+        screenBinding.prevCount = previousCount.toString()
+        screenBinding.nextCount = nextCount.toString()
     }
 
     private fun initializePlayer() {
@@ -106,19 +113,24 @@ class VideoPlayerFragment : Fragment(), Player.Listener, PlaybackControlListener
         }
     }
 
-    override fun onPlayButtonClicked() {
-        screenBinding.playCount = (++playCount).toString()
-    }
+    override fun onExoPlayerPlaybackOptionsClicked(exoPlayerActionEvents: ExoPlayerActionEvents) {
+        exoPlayerViewModel.sendFireBaseEvents(exoPlayerActionEvents)
+        when (exoPlayerActionEvents) {
+            is ExoPlayerActionEvents.NextButtonClicked -> {
+                screenBinding.nextCount = (++nextCount).toString()
+            }
 
-    override fun onPreviousButtonClicked() {
-        screenBinding.prevCount = (++previousCount).toString()
-    }
+            is ExoPlayerActionEvents.PauseButtonClicked -> {
+                screenBinding.pauseCount = (++pauseCount).toString()
+            }
 
-    override fun onNextButtonClicked() {
-        screenBinding.nextCount = (++nextCount).toString()
-    }
+            is ExoPlayerActionEvents.PlayButtonClicked -> {
+                screenBinding.playCount = (++playCount).toString()
+            }
 
-    override fun onPausedButtonClicked() {
-        screenBinding.pauseCount = (++pauseCount).toString()
+            is ExoPlayerActionEvents.PreviousButtonClicked -> {
+                screenBinding.prevCount = (++previousCount).toString()
+            }
+        }
     }
 }

@@ -1,6 +1,8 @@
 package com.example.dazn_exoplayerproject.di
 
 import android.content.Context
+import com.example.dazn_exoplayerproject.repository.FireBaseRepository
+import com.example.dazn_exoplayerproject.repository.FireBaseRepositoryImpl
 import com.example.dazn_exoplayerproject.repository.VideoListRepository
 import com.example.dazn_exoplayerproject.repository.VideoListRepositoryImpl
 import com.example.dazn_exoplayerproject.viewModel.ExoPlayerViewModel
@@ -19,10 +21,11 @@ val exoPlayerModule = module {
 
 val repositoryModule = module {
     single<VideoListRepository> { VideoListRepositoryImpl(get()) }
+    single<FireBaseRepository> { FireBaseRepositoryImpl() }
 }
 
 val viewModelModule = module {
-    single { ExoPlayerViewModel(get<VideoListRepository>()) }
+    single { ExoPlayerViewModel(get<VideoListRepository>(), get()) }
 }
 
 val koinModules = listOf(
