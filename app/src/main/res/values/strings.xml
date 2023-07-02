@@ -1,3 +1,7 @@
 <resources>
     <string name="app_name">DAZN_ExoPlayerProject</string>
+    <string name="play_count">Play Count: </string>
+    <string name="pause_count">Pause Count: </string>
+    <string name="forward_count">Forward Count: </string>
+    <string name="backward_count">Backward Count: </string>
 </resources>

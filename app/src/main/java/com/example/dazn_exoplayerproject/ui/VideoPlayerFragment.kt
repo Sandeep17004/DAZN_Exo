@@ -1,15 +1,15 @@
 package com.example.dazn_exoplayerproject.ui
 
 import android.os.Bundle
-import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
+import com.example.dazn_exoplayerproject.R
 import com.example.dazn_exoplayerproject.databinding.FragmentVideoPlayerBinding
+import com.example.dazn_exoplayerproject.ui.interfaces.PlaybackControlListener
 import com.example.dazn_exoplayerproject.viewModel.ExoPlayerViewModel
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
@@ -17,12 +17,15 @@ import com.google.android.exoplayer2.Player
 import org.koin.android.ext.android.inject
 import org.koin.androidx.viewmodel.ext.android.viewModel
 
-class VideoPlayerFragment : Fragment(), Player.Listener {
+class VideoPlayerFragment : Fragment(), Player.Listener, PlaybackControlListener {
     private val exoPlayerViewModel: ExoPlayerViewModel by viewModel()
     private val args: VideoPlayerFragmentArgs by navArgs()
     private val exoPlayer: ExoPlayer by inject()
     private lateinit var screenBinding: FragmentVideoPlayerBinding
-
+    private var playCount: Int = 0
+    private var pauseCount: Int = 0
+    private var nextCount: Int = 0
+    private var previousCount: Int = 0
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -40,6 +43,7 @@ class VideoPlayerFragment : Fragment(), Player.Listener {
     private fun initializePlayer() {
         screenBinding.exoPlayerView.player = exoPlayer
         screenBinding.playbackControlView.setPlayer(exoPlayer)
+        screenBinding.playbackControlView.setPlaybackControlListener(this)
         exoPlayer.addListener(this)
         createExoPlayerMedia { playVideo(it) }
     }
@@ -102,9 +106,19 @@ class VideoPlayerFragment : Fragment(), Player.Listener {
         }
     }
 
-    fun showToast(text: String) {
-        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
-
+    override fun onPlayButtonClicked() {
+        screenBinding.playCount = (++playCount).toString()
     }
 
+    override fun onPreviousButtonClicked() {
+        screenBinding.prevCount = (++previousCount).toString()
+    }
+
+    override fun onNextButtonClicked() {
+        screenBinding.nextCount = (++nextCount).toString()
+    }
+
+    override fun onPausedButtonClicked() {
+        screenBinding.pauseCount = (++pauseCount).toString()
+    }
 }

@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.SeekBar
 import com.example.dazn_exoplayerproject.R
 import com.example.dazn_exoplayerproject.databinding.ViewPlaybackControlBinding
+import com.example.dazn_exoplayerproject.ui.interfaces.PlaybackControlListener
 import com.google.android.exoplayer2.Player
 import java.util.concurrent.Executors
 
@@ -22,6 +23,7 @@ class PlaybackControlView @JvmOverloads constructor(
     private var player: Player? = null
     private var progressUpdateTask: Runnable? = null
     private val updateHandler = Handler(Looper.getMainLooper())
+    private var playbackControlListener: PlaybackControlListener? = null
 
     init {
         screenBinding = ViewPlaybackControlBinding.inflate(LayoutInflater.from(context), this, true)
@@ -29,24 +31,40 @@ class PlaybackControlView @JvmOverloads constructor(
         setupSeekBar()
     }
 
+    fun setPlaybackControlListener(listener: PlaybackControlListener) {
+        playbackControlListener = listener
+    }
+
     private fun setupPlaybackButtons() {
         screenBinding.previousButton.setOnClickListener {
+            playbackControlListener?.onPreviousButtonClicked()
             player?.seekToPreviousMediaItem()
         }
 
         screenBinding.nextButton.setOnClickListener {
+            playbackControlListener?.onNextButtonClicked()
             player?.seekToNextMediaItem()
         }
 
         screenBinding.playButton.setOnClickListener {
             if (player?.playWhenReady == true) {
-                player?.pause()
-                updatePlaybackState(true)
+                pausePlayer()
             } else {
-                player?.play()
-                updatePlaybackState(false)
+                playPlayer()
             }
         }
+    }
+
+    private fun pausePlayer() {
+        playbackControlListener?.onPausedButtonClicked()
+        player?.pause()
+        updatePlaybackState(true)
+    }
+
+    private fun playPlayer() {
+        playbackControlListener?.onPlayButtonClicked()
+        player?.play()
+        updatePlaybackState(false)
     }
 
     private fun setupSeekBar() {
