@@ -7,6 +7,24 @@
     <fragment
         android:id="@+id/videoListFragment"
         android:name="com.example.dazn_exoplayerproject.ui.VideoListFragment"
-        tools:layout="@layout/fragment_video_list" />
+        tools:layout="@layout/fragment_video_list">
+        <action
+            android:id="@+id/action_videoList_to_videoPlayer"
+            app:destination="@+id/videoPlayerFragment" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/videoPlayerFragment"
+        android:name="com.example.dazn_exoplayerproject.ui.VideoPlayerFragment">
+        <argument
+            android:name="listPosition"
+            app:argType="integer"
+            app:nullable="false" />
+        <argument
+            android:name="videoList"
+            app:argType="com.example.dazn_exoplayerproject.model.VideoListDataItem[]"
+            app:nullable="false" />
+    </fragment>
 
 </navigation>
