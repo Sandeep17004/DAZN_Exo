@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.dazn_exoplayerproject.R
 import com.example.dazn_exoplayerproject.databinding.FragmentVideoListBinding
 import com.example.dazn_exoplayerproject.model.VideoListDataItem
-import com.example.dazn_exoplayerproject.ui.VideoListFragmentDirections.ActionVideoListToVideoPlayer
 import com.example.dazn_exoplayerproject.ui.adapter.VideoListAdapter
 import com.example.dazn_exoplayerproject.viewModel.ExoPlayerViewModel
 import org.koin.androidx.viewmodel.ext.android.viewModel

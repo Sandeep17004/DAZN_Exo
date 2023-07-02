@@ -11,9 +11,9 @@ import org.koin.androidx.viewmodel.dsl.viewModel
 
 
 val exoPlayerModule = module {
-    single { (context: Context) ->
-        ExoPlayer.Builder(context).build().apply {
-            videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT_WITH_CROPPING
+    factory {
+        ExoPlayer.Builder(get<Context>()).build().apply {
+            videoScalingMode = C.VIDEO_SCALING_MODE_SCALE_TO_FIT
         }
     }
 }
