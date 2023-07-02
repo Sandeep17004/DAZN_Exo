@@ -21,10 +21,6 @@
             android:name="listPosition"
             app:argType="integer"
             app:nullable="false" />
-        <argument
-            android:name="videoList"
-            app:argType="com.example.dazn_exoplayerproject.model.VideoListDataItem[]"
-            app:nullable="false" />
     </fragment>
 
 </navigation>

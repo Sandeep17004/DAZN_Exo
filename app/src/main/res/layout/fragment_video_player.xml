@@ -24,14 +24,23 @@
             app:layout_constraintGuide_percent="0.35" />
 
         <com.google.android.exoplayer2.ui.PlayerView
-            android:id="@+id/exoPlayView"
+            android:id="@+id/exoPlayerView"
             android:layout_width="match_parent"
             android:layout_height="0dp"
             app:layout_constraintBottom_toBottomOf="@+id/playerGuide"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:resize_mode="fit" />
+            app:resize_mode="fill"
+            app:use_controller="false" />
+
+        <com.example.dazn_exoplayerproject.ui.PlaybackControlView
+            android:id="@+id/playbackControlView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="@id/exoPlayerView"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.progressindicator.CircularProgressIndicator
             android:layout_width="wrap_content"
@@ -40,10 +49,10 @@
             android:indeterminate="true"
             android:visibility="@{isVideoBuffering?View.VISIBLE:View.GONE}"
             app:indicatorColor="@color/cardview_dark_background"
-            app:layout_constraintBottom_toBottomOf="@+id/exoPlayView"
+            app:layout_constraintBottom_toBottomOf="@+id/exoPlayerView"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/exoPlayView"
+            app:layout_constraintTop_toTopOf="@+id/exoPlayerView"
             app:trackColor="@color/design_default_color_primary_dark"
             app:trackThickness="2dp" />
 

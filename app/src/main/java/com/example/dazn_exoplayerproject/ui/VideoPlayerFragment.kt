@@ -1,22 +1,28 @@
 package com.example.dazn_exoplayerproject.ui
 
 import android.os.Bundle
+import android.support.v4.media.session.PlaybackStateCompat
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.core.content.ContentProviderCompat.requireContext
 import androidx.fragment.app.Fragment
 import androidx.navigation.fragment.navArgs
 import com.example.dazn_exoplayerproject.databinding.FragmentVideoPlayerBinding
+import com.example.dazn_exoplayerproject.viewModel.ExoPlayerViewModel
 import com.google.android.exoplayer2.ExoPlayer
 import com.google.android.exoplayer2.MediaItem
 import com.google.android.exoplayer2.Player
 import org.koin.android.ext.android.inject
+import org.koin.androidx.viewmodel.ext.android.viewModel
 
 class VideoPlayerFragment : Fragment(), Player.Listener {
+    private val exoPlayerViewModel: ExoPlayerViewModel by viewModel()
     private val args: VideoPlayerFragmentArgs by navArgs()
     private val exoPlayer: ExoPlayer by inject()
     private lateinit var screenBinding: FragmentVideoPlayerBinding
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,10 +38,16 @@ class VideoPlayerFragment : Fragment(), Player.Listener {
     }
 
     private fun initializePlayer() {
-        screenBinding.exoPlayView.player = exoPlayer
+        screenBinding.exoPlayerView.player = exoPlayer
+        screenBinding.playbackControlView.setPlayer(exoPlayer)
         exoPlayer.addListener(this)
-        val videoUrl = args.videoList[args.listPosition].uri
-        playVideo(videoUrl)
+        createExoPlayerMedia { playVideo(it) }
+    }
+
+    private fun createExoPlayerMedia(playVideo: (List<MediaItem>) -> Unit) {
+        val totalVideos = exoPlayerViewModel.videoList.value ?: arrayListOf()
+        val media = totalVideos.map { MediaItem.fromUri(it.uri) }
+        playVideo.invoke(media)
     }
 
     override fun onStart() {
@@ -43,11 +55,13 @@ class VideoPlayerFragment : Fragment(), Player.Listener {
         exoPlayer.playWhenReady = true
     }
 
-    private fun playVideo(videoUrl: String) {
-        val mediaItem = MediaItem.fromUri(videoUrl)
-        exoPlayer.setMediaItem(mediaItem)
-        exoPlayer.prepare()
-        exoPlayer.play()
+    private fun playVideo(mediaItem: List<MediaItem>) {
+        exoPlayer.apply {
+            setMediaItems(mediaItem)
+            prepare()
+            seekTo(args.listPosition.toLong())
+            play()
+        }
     }
 
     override fun onDestroyView() {
@@ -68,7 +82,7 @@ class VideoPlayerFragment : Fragment(), Player.Listener {
     private fun releasePlayer() {
         exoPlayer.removeListener(this@VideoPlayerFragment)
         exoPlayer.release()
-        screenBinding.exoPlayView.player = null
+        screenBinding.exoPlayerView.player = null
     }
 
     override fun onPlayerStateChanged(playWhenReady: Boolean, playbackState: Int) {
@@ -78,13 +92,19 @@ class VideoPlayerFragment : Fragment(), Player.Listener {
             }
 
             Player.STATE_READY -> {
+                if (playWhenReady) {
+                    screenBinding.playbackControlView.startProgressUpdateTask()
+                } else {
+                    screenBinding.playbackControlView.stopProgressUpdateTask()
+                }
                 screenBinding.isVideoBuffering = false
-            }
-
-            Player.STATE_ENDED -> {
-                Toast.makeText(requireContext(), "end", Toast.LENGTH_SHORT).show()
-
             }
         }
     }
+
+    fun showToast(text: String) {
+        Toast.makeText(requireContext(), text, Toast.LENGTH_SHORT).show()
+
+    }
+
 }

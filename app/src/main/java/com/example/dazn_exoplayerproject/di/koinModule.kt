@@ -7,7 +7,6 @@ import com.example.dazn_exoplayerproject.viewModel.ExoPlayerViewModel
 import com.google.android.exoplayer2.C
 import com.google.android.exoplayer2.ExoPlayer
 import org.koin.dsl.module
-import org.koin.androidx.viewmodel.dsl.viewModel
 
 
 val exoPlayerModule = module {
@@ -23,7 +22,7 @@ val repositoryModule = module {
 }
 
 val viewModelModule = module {
-    viewModel { ExoPlayerViewModel(get<VideoListRepository>()) }
+    single { ExoPlayerViewModel(get<VideoListRepository>()) }
 }
 
 val koinModules = listOf(

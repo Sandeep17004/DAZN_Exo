@@ -18,7 +18,7 @@ class ExoPlayerViewModel(
         loadVideoList()
     }
 
-    fun loadVideoList() {
+    private fun loadVideoList() {
         viewModelScope.launch(Dispatchers.Default) {
             videoList.postValue(videoListRepository.readVideoJsonList())
         }

@@ -58,8 +58,7 @@ class VideoListFragment : Fragment() {
     private fun navigateToPlayVideo(listPosition: Int) {
         findNavController().navigate(
             VideoListFragmentDirections.actionVideoListToVideoPlayer(
-                listPosition,
-                videoListAdapter.currentList.toTypedArray()
+                listPosition
             )
         )
     }
