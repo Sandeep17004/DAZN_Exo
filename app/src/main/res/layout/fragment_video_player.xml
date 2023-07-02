@@ -16,7 +16,8 @@
 
         <variable
             name="playCount"
-            type="String" />
+            type="String"
+            />
 
         <variable
             name="prevCount"

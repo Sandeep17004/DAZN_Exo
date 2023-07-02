@@ -9,6 +9,7 @@ import android.widget.FrameLayout
 import android.widget.SeekBar
 import com.example.dazn_exoplayerproject.R
 import com.example.dazn_exoplayerproject.databinding.ViewPlaybackControlBinding
+import com.example.dazn_exoplayerproject.model.ExoPlayerActionEvents
 import com.example.dazn_exoplayerproject.ui.interfaces.PlaybackControlListener
 import com.google.android.exoplayer2.Player
 import java.util.concurrent.Executors
@@ -37,12 +38,12 @@ class PlaybackControlView @JvmOverloads constructor(
 
     private fun setupPlaybackButtons() {
         screenBinding.previousButton.setOnClickListener {
-            playbackControlListener?.onPreviousButtonClicked()
+            playbackControlListener?.onExoPlayerPlaybackOptionsClicked(ExoPlayerActionEvents.PlayButtonClicked)
             player?.seekToPreviousMediaItem()
         }
 
         screenBinding.nextButton.setOnClickListener {
-            playbackControlListener?.onNextButtonClicked()
+            playbackControlListener?.onExoPlayerPlaybackOptionsClicked(ExoPlayerActionEvents.NextButtonClicked)
             player?.seekToNextMediaItem()
         }
 
@@ -56,13 +57,13 @@ class PlaybackControlView @JvmOverloads constructor(
     }
 
     private fun pausePlayer() {
-        playbackControlListener?.onPausedButtonClicked()
+        playbackControlListener?.onExoPlayerPlaybackOptionsClicked(ExoPlayerActionEvents.PauseButtonClicked)
         player?.pause()
         updatePlaybackState(true)
     }
 
     private fun playPlayer() {
-        playbackControlListener?.onPlayButtonClicked()
+        playbackControlListener?.onExoPlayerPlaybackOptionsClicked(ExoPlayerActionEvents.PlayButtonClicked)
         player?.play()
         updatePlaybackState(false)
     }
