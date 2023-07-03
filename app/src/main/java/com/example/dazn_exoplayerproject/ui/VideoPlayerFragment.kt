@@ -19,8 +19,9 @@ import org.koin.androidx.viewmodel.ext.android.viewModel
 class VideoPlayerFragment : Fragment(), Player.Listener, PlaybackControlListener {
     private val exoPlayerViewModel: ExoPlayerViewModel by viewModel()
     private val args: VideoPlayerFragmentArgs by navArgs()
-    private val exoPlayer: ExoPlayer by inject()
-    private lateinit var screenBinding: FragmentVideoPlayerBinding
+    val exoPlayer: ExoPlayer by inject()
+    lateinit var screenBinding: FragmentVideoPlayerBinding
+    var pauseCount = 0  // only for testcase
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -70,7 +71,7 @@ class VideoPlayerFragment : Fragment(), Player.Listener, PlaybackControlListener
         createExoPlayerMedia { playVideo(it) }
     }
 
-    private fun createExoPlayerMedia(playVideo: (List<MediaItem>) -> Unit) {
+    fun createExoPlayerMedia(playVideo: (List<MediaItem>) -> Unit) {
         val totalVideos = exoPlayerViewModel.videoList.value ?: arrayListOf()
         val media = totalVideos.map { MediaItem.fromUri(it.uri) }
         playVideo.invoke(media)
@@ -93,6 +94,7 @@ class VideoPlayerFragment : Fragment(), Player.Listener, PlaybackControlListener
     override fun onDestroyView() {
         super.onDestroyView()
         releasePlayer()
+        pauseCount = 0
         exoPlayerViewModel.resetCounters()
     }
 
@@ -137,6 +139,7 @@ class VideoPlayerFragment : Fragment(), Player.Listener, PlaybackControlListener
             }
 
             is ExoPlayerActionEvents.PauseButtonClicked -> {
+                ++pauseCount
                 exoPlayerViewModel.incrementPauseCount()
             }
 
