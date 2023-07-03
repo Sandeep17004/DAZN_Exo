@@ -16,8 +16,7 @@
 
         <variable
             name="playCount"
-            type="String"
-            />
+            type="String" />
 
         <variable
             name="prevCount"
@@ -71,13 +70,13 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/exoPlayerView"
             app:trackColor="@color/design_default_color_primary_dark"
-            app:trackThickness="2dp" />
+            app:trackThickness="@dimen/_2sdp" />
 
         <androidx.appcompat.widget.AppCompatTextView
             android:id="@+id/tvPaused"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/_12sdp"
             android:text="@string/pause_count"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/playbackControlView" />
@@ -85,7 +84,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:text="@{pauseCount}"
             app:layout_constraintBottom_toBottomOf="@+id/tvPaused"
             app:layout_constraintStart_toEndOf="@+id/tvPaused"
@@ -95,7 +94,7 @@
             android:id="@+id/tvPlay"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/_12sdp"
             android:text="@string/play_count"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPaused" />
@@ -103,7 +102,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:text="@{playCount}"
             app:layout_constraintBottom_toBottomOf="@+id/tvPlay"
             app:layout_constraintStart_toEndOf="@+id/tvPlay"
@@ -113,7 +112,7 @@
             android:id="@+id/tvNext"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/_12sdp"
             android:text="@string/forward_count"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvPlay" />
@@ -121,7 +120,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:text="@{nextCount}"
             app:layout_constraintBottom_toBottomOf="@+id/tvNext"
             app:layout_constraintStart_toEndOf="@+id/tvNext"
@@ -131,7 +130,7 @@
             android:id="@+id/tvPrevious"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="16dp"
+            android:layout_margin="@dimen/_12sdp"
             android:text="@string/backward_count"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tvNext" />
@@ -139,7 +138,7 @@
         <androidx.appcompat.widget.AppCompatTextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="@dimen/_4sdp"
             android:text="@{prevCount}"
             app:layout_constraintBottom_toBottomOf="@+id/tvPrevious"
             app:layout_constraintStart_toEndOf="@+id/tvPrevious"

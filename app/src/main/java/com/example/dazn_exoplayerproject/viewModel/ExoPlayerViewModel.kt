@@ -18,16 +18,16 @@ class ExoPlayerViewModel(
 ) : ViewModel(), KoinComponent {
     val videoList = MutableLiveData<List<VideoListDataItem>>()
 
-    private val _pauseCount = MutableLiveData<Int>()
+    private val _pauseCount = MutableLiveData<Int>(0)
     val pauseCount: LiveData<Int> get() = _pauseCount
 
-    private val _playCount = MutableLiveData<Int>()
+    private val _playCount = MutableLiveData<Int>(0)
     val playCount: LiveData<Int> get() = _playCount
 
-    private val _nextCount = MutableLiveData<Int>()
+    private val _nextCount = MutableLiveData<Int>(0)
     val nextCount: LiveData<Int> get() = _nextCount
 
-    private val _previousCount = MutableLiveData<Int>()
+    private val _previousCount = MutableLiveData<Int>(0)
     val previousCount: LiveData<Int> get() = _previousCount
 
     init {
@@ -40,20 +40,21 @@ class ExoPlayerViewModel(
         }
     }
 
+
     fun incrementPauseCount() {
-        _pauseCount.value = (_pauseCount.value ?: 0) + 1
+        _pauseCount.value = _pauseCount.value?.plus(1) ?: 1
     }
 
     fun incrementPlayCount() {
-        _playCount.value = (_playCount.value ?: 0) + 1
+        _playCount.value = _playCount.value?.plus(1) ?: 1
     }
 
     fun incrementNextCount() {
-        _nextCount.value = (_nextCount.value ?: 0) + 1
+        _nextCount.value = _nextCount.value?.plus(1) ?: 1
     }
 
     fun incrementPreviousCount() {
-        _previousCount.value = (_previousCount.value ?: 0) + 1
+        _previousCount.value = _previousCount.value?.plus(1) ?: 1
     }
 
 
